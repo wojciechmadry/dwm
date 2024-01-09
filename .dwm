@@ -1,0 +1,5 @@
+#!/bin/bash
+## run-dwm
+slstatus &
+nm-applet &
+dwm
