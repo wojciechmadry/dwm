@@ -80,6 +80,7 @@ static const char *i3lockcmd[]  = { "i3lock", NULL };
 static const char *raisevolumecmd[]  = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+10%", NULL };
 static const char *lowervolumecmd[]  = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-10%", NULL };
 static const char *mutevolumecmd[]  = { "pactl", "set-sink-mute", "@DEFAULT_SINK@", "toggle", NULL };
+static const char *printscreencmd[]  = { "gnome-screenshot", "-i", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -87,6 +88,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_x,      spawn,          {.v = firefoxcmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_l,      spawn,          {.v = i3lockcmd } },
+	{ 0,                            0x0000ff61,      spawn,          {.v = printscreencmd } },
 	{ 0,                            XF86XK_AudioRaiseVolume,      spawn,          {.v = raisevolumecmd } },
 	{ 0,                            XF86XK_AudioLowerVolume,      spawn,          {.v = lowervolumecmd } },
 	{ 0,                            XF86XK_AudioMute,      spawn,          {.v = mutevolumecmd } },
