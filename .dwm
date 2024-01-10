@@ -1,5 +1,7 @@
 #!/bin/bash
 ## run-dwm
+xset -dpms
+xsetroot -solid "#000000" &
 slstatus &
 nm-applet &
 dwm
