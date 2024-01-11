@@ -1,3 +1,4 @@
+*.rej
 drw.o
 dwm
 dwm.c.orig
