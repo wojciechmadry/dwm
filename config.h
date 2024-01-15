@@ -38,6 +38,7 @@ static const Rule rules[] = {
 	//{ "Gimp",          NULL,       NULL,       0,            1,           -1 },
 	{ "firefox",         NULL,       NULL,       1 << 0,       0,           -1 },
 	{ "firefox-esr",     NULL,       NULL,       1 << 0,       0,           -1 },
+	{ "Firefox-esr",     NULL,       NULL,       1 << 0,       0,           -1 },
 	{ "st",              NULL,       NULL,       1 << 1,       0,           -1},
 	{ "Alacritty",       NULL,       NULL,       1 << 1,       0,           -1},
 	{ "Thunar",          NULL,       NULL,       1 << 2,       0,           -1},
