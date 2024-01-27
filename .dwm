@@ -1,6 +1,8 @@
 #!/bin/bash
 ## run-dwm
 xset -dpms
+xset s off
+xset s noblank
 xsetroot -solid "#000000" &
 slstatus &
 nm-applet &
