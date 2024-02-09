@@ -5,6 +5,9 @@ include config.mk
 
 SRC = drw.c dwm.c util.c
 OBJ = ${SRC:.c=.o}
+SRC_TEST = $(wildcard tests/**/*.cpp)
+TEST_FLAGS = -lpthread -lgtest -lgtest_main
+TEST_PROGRAM = test
 
 all: dwm
 
@@ -17,15 +20,19 @@ dwm: ${OBJ}
 	${CC} -o $@ ${OBJ} ${LDFLAGS}
 
 clean:
-	rm -f dwm ${OBJ} dwm-${VERSION}.tar.gz
+	rm -f dwm ${OBJ} dwm-${VERSION}.tar.gz ${TEST_PROGRAM}
 
 dist: clean
 	mkdir -p dwm-${VERSION}
 	cp -R LICENSE Makefile README config.h config.mk\
-		dwm.1 drw.h util.h ${SRC} dwm.png transient.c dwm-${VERSION}
+		dwm.1 drw.h util.h ${SRC} dwm.png dwm-${VERSION}
 	tar -cf dwm-${VERSION}.tar dwm-${VERSION}
 	gzip dwm-${VERSION}.tar
 	rm -rf dwm-${VERSION}
+
+test:
+	${CXX} -I. -fPIC ${TEST_FLAGS} ${CPPFLAGS} ${LDFLAGS} -o ${TEST_PROGRAM} ${SRC_TEST} ${OBJ}
+	./test
 
 install: all
 	mkdir -p ${DESTDIR}${PREFIX}/bin
@@ -43,4 +50,4 @@ uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/dwm\
 		${DESTDIR}${MANPREFIX}/man1/dwm.1
 
-.PHONY: all clean dist install uninstall
+.PHONY: all clean dist install uninstall test

@@ -150,7 +150,7 @@ struct Monitor {
 };
 
 typedef struct {
-	const char *class;
+	const char *cclass;
 	const char *instance;
 	const char *title;
 	unsigned int tags;
@@ -325,7 +325,7 @@ struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
 void
 applyrules(Client *c)
 {
-	const char *class, *instance;
+	const char *cclass, *instance;
 	unsigned int i;
 	const Rule *r;
 	Monitor *m;
@@ -335,13 +335,13 @@ applyrules(Client *c)
 	c->isfloating = 0;
 	c->tags = 0;
 	XGetClassHint(dpy, c->win, &ch);
-	class    = ch.res_class ? ch.res_class : broken;
+	cclass    = ch.res_class ? ch.res_class : broken;
 	instance = ch.res_name  ? ch.res_name  : broken;
 
 	for (i = 0; i < LENGTH(rules); i++) {
 		r = &rules[i];
 		if ((!r->title || strstr(c->name, r->title))
-		&& (!r->class || strstr(class, r->class))
+		&& (!r->cclass || strstr(cclass, r->cclass))
 		&& (!r->instance || strstr(instance, r->instance)))
 		{
 			c->isfloating = r->isfloating;
@@ -533,7 +533,7 @@ checkotherwm(void)
 void
 cleanup(void)
 {
-	Arg a = {.ui = ~0};
+	Arg a = {.ui = (unsigned int)~0};
 	Layout foo = { "", NULL };
 	Monitor *m;
 	size_t i;
@@ -754,7 +754,7 @@ createmon(void)
 	Monitor *m;
 	unsigned int i;
 
-	m = ecalloc(1, sizeof(Monitor));
+	m = (Monitor*)ecalloc(1, sizeof(Monitor));
 	m->tagset[0] = m->tagset[1] = 1;
 	m->mfact = mfact;
 	m->nmaster = nmaster;
@@ -763,7 +763,7 @@ createmon(void)
 	m->lt[0] = &layouts[0];
 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
 	strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
-	m->pertag = ecalloc(1, sizeof(Pertag));
+	m->pertag = (Pertag*)ecalloc(1, sizeof(Pertag));
 	m->pertag->curtag = m->pertag->prevtag = 1;
 
 	for (i = 0; i <= LENGTH(tags); i++) {
@@ -1222,7 +1222,7 @@ manage(Window w, XWindowAttributes *wa)
 	Window trans = None;
 	XWindowChanges wc;
 
-	c = ecalloc(1, sizeof(Client));
+	c = (Client*)ecalloc(1, sizeof(Client));
 	c->win = w;
 	/* geometry */
 	c->x = c->oldx = wa->x;
@@ -1867,7 +1867,7 @@ setup(void)
 	cursor[CurResize] = drw_cur_create(drw, XC_sizing);
 	cursor[CurMove] = drw_cur_create(drw, XC_fleur);
 	/* init appearance */
-	scheme = ecalloc(LENGTH(colors), sizeof(Clr *));
+	scheme = (Clr**)ecalloc(LENGTH(colors), sizeof(Clr *));
 	for (i = 0; i < LENGTH(colors); i++)
 		scheme[i] = drw_scm_create(drw, colors[i], 3);
 	/* init system tray */
@@ -2220,7 +2220,7 @@ updategeom(void)
 
 		for (n = 0, m = mons; m; m = m->next, n++);
 		/* only consider unique geometries as separate screens */
-		unique = ecalloc(nn, sizeof(XineramaScreenInfo));
+		unique = (XineramaScreenInfo *)ecalloc(nn, sizeof(XineramaScreenInfo));
 		for (i = 0, j = 0; i < nn; i++)
 			if (isuniquegeom(unique, j, &info[i]))
 				memcpy(&unique[j++], &info[i], sizeof(XineramaScreenInfo));
@@ -2347,7 +2347,7 @@ void
 updatestatus(void)
 {
 	if (!gettextprop(root, XA_WM_NAME, stext, sizeof(stext)))
-		strcpy(stext, "dwm-"VERSION);
+		strcpy(stext, "dwm-" VERSION);
 	drawbar(selmon);
 	updatesystray();
 }
@@ -2652,6 +2652,7 @@ zoom(const Arg *arg)
 	pop(c);
 }
 
+/*
 int
 main(int argc, char *argv[])
 {
@@ -2668,7 +2669,7 @@ main(int argc, char *argv[])
 #ifdef __OpenBSD__
 	if (pledge("stdio rpath proc exec", NULL) == -1)
 		die("pledge");
-#endif /* __OpenBSD__ */
+#endif
 	scan();
 	run();
 	cleanup();
@@ -2678,3 +2679,4 @@ main(int argc, char *argv[])
 	}
 	return EXIT_SUCCESS;
 }
+*/
