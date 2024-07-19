@@ -37,6 +37,7 @@ install: all
 	mkdir -p /usr/share/dwm
 	chmod +x .dwm
 	cp .dwm /usr/share/dwm/
+	mkdir -p /usr/share/xsessions/
 	cp dwm.desktop /usr/share/xsessions/
 
 uninstall:
