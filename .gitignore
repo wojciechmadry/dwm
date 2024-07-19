@@ -1,0 +1,9 @@
+*.rej
+drw.o
+dwm
+dwm.c.orig
+util.o
+dwm.o
+dwm-*.tar.gz
+*.patch
+config.h.orig
