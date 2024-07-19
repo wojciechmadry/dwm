@@ -1,0 +1,39 @@
+name: patch
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+       - '**'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-22.04
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install Dependencies
+      run: |
+        sudo apt update
+        sudo apt -y install git
+
+    - name: Clone dwm
+      run: |
+        git clone https://git.suckless.org/dwm
+
+    - name: Generate patch
+      run: |
+        cd dwm
+        git remote add -f b https://github.com/wojciechmadry/dwm.git
+        git remote update
+        git diff master remotes/b/master > wojciechmadry.patch
+        git remote rm b
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: wojciechmadry.patch
+        path: dwm/wojciechmadry.patch
