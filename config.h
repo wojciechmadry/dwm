@@ -84,6 +84,9 @@ static const char *raisevolumecmd[]  = { "pactl", "set-sink-volume", "@DEFAULT_S
 static const char *lowervolumecmd[]  = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-10%", NULL };
 static const char *mutevolumecmd[]  = { "pactl", "set-sink-mute", "@DEFAULT_SINK@", "toggle", NULL };
 static const char *printscreencmd[]  = { "gnome-screenshot", "-i", NULL };
+static const char *brightnessupcmd[]  = { "sh", "-c", "brightnessctl s +5% | grep '%' | awk -F'[()]' '{print $2}' | xargs -n 1 notify-send ", NULL };
+static const char *brightnessdowncmd[]  = { "sh", "-c", "brightnessctl s 5%- | grep '%' | awk -F'[()]' '{print $2}' | xargs -n 1 notify-send" , NULL };
+
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -95,6 +98,8 @@ static const Key keys[] = {
 	{ 0,                            XF86XK_AudioRaiseVolume,      spawn,          {.v = raisevolumecmd } },
 	{ 0,                            XF86XK_AudioLowerVolume,      spawn,          {.v = lowervolumecmd } },
 	{ 0,                            XF86XK_AudioMute,      spawn,          {.v = mutevolumecmd } },
+	{ 0,                            XF86XK_MonBrightnessUp,      spawn,          {.v = brightnessupcmd } },
+	{ 0,                            XF86XK_MonBrightnessDown,      spawn,          {.v = brightnessdowncmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
